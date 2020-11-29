@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.joaolummertz.workshopspringmongodb.domain.Post;
 import com.joaolummertz.workshopspringmongodb.domain.User;
+import com.joaolummertz.workshopspringmongodb.dto.AuthorDto;
 import com.joaolummertz.workshopspringmongodb.repositories.PostRepository;
 import com.joaolummertz.workshopspringmongodb.repositories.UserRepository;
 
@@ -20,7 +21,7 @@ public class Instantiation implements CommandLineRunner {
 	private UserRepository userRepository;
 	@Autowired
 	private PostRepository postRepository;
-	
+
 	@Override
 	public void run(String... args) throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -30,9 +31,11 @@ public class Instantiation implements CommandLineRunner {
 		User maria = new User(null, "Maria Brown", "maria@gmail.com");
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
-		Post p1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo.", maria);
-		Post p2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia!", "Acordei feliz hoje", maria);
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		Post p1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo.",
+				new AuthorDto(maria));
+		Post p2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia!", "Acordei feliz hoje", 
+				new AuthorDto(maria));
 		postRepository.saveAll(Arrays.asList(p1, p2));
 	}
 }
